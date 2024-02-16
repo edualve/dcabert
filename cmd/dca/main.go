@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/jonas747/dca"
 	"io"
 	"os"
 	"time"
+
+	"github.com/jonas747/dca"
 )
 
 // All global variables used within the program
@@ -37,8 +38,6 @@ var (
 	// Wether variable bitrate is used or not
 	VBR bool
 
-	Volume int // change audio volume (256=normal)
-
 	Threads int // change number of threads to use, 0 for auto
 
 	Comment string // Comment left in the metadata
@@ -59,7 +58,6 @@ var (
 func init() {
 
 	flag.StringVar(&InFile, "i", "pipe:0", "infile")
-	flag.IntVar(&Volume, "vol", 256, "change audio volume (256=normal)")
 	flag.IntVar(&Channels, "ac", 2, "audio channels")
 	flag.IntVar(&FrameRate, "ar", 48000, "audio sampling rate")
 	flag.IntVar(&FrameDuration, "as", 20, "audio frame duration can be 20, 40, or 60 (ms)")
@@ -120,7 +118,6 @@ func main() {
 	//////////////////////////////////////////////////////////////////////////
 
 	options := &dca.EncodeOptions{
-		Volume:        Volume,
 		Channels:      Channels,
 		FrameRate:     FrameRate,
 		FrameDuration: FrameDuration,
@@ -166,7 +163,7 @@ func statusPrinter(session *dca.EncodeSession) {
 	for {
 		<-ticker.C
 		stats := session.Stats()
-		fmt.Fprintf(os.Stderr, "Time: %10s, Bitrate: %6.1fkbits/s, Size: %6dkB, Speed: %7.1f\r", stats.Duration.String(), stats.Bitrate, stats.Size, stats.Speed)
+		fmt.Fprintf(os.Stderr, "Time: %10s, Bitrate: %6.1fkbits/s, Size: %6dkB", stats.Duration.String(), stats.Bitrate, stats.Size)
 		if !session.Running() {
 			break
 		}

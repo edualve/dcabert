@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/bwmarrin/discordgo"
-	"github.com/jonas747/dca"
 	"io"
 	"io/ioutil"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/jonas747/dca"
+
 	//"io/ioutil"
 	"log"
 	"os/exec"
@@ -130,7 +132,7 @@ func PlayAudioFile(v *discordgo.VoiceConnection, filename string) {
 			stats := encodeSession.Stats()
 			playbackPosition := stream.PlaybackPosition()
 
-			fmt.Printf("Playback: %10s, Transcode Stats: Time: %5s, Size: %5dkB, Bitrate: %6.2fkB, Speed: %5.1fx\r", playbackPosition, stats.Duration.String(), stats.Size, stats.Bitrate, stats.Speed)
+			fmt.Printf("Playback: %10s, Transcode Stats: Time: %5s, Size: %5dkB, Bitrate: %6.2fkB", playbackPosition, stats.Duration.String(), stats.Size, stats.Bitrate)
 		}
 	}
 }
