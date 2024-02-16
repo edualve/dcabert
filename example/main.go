@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/jonas747/dca"
+	"github.com/edualve/dcabert"
 
 	//"io/ioutil"
 	"log"
@@ -104,17 +104,17 @@ func PlayAudioFile(v *discordgo.VoiceConnection, filename string) {
 	// Send not "speaking" packet over the websocket when we finish
 	defer v.Speaking(false)
 
-	opts := dca.StdEncodeOptions
+	opts := dcabert.StdEncodeOptions
 	opts.RawOutput = true
 	opts.Bitrate = 120
 
-	encodeSession, err := dca.EncodeFile(filename, opts)
+	encodeSession, err := dcabert.EncodeFile(filename, opts)
 	if err != nil {
 		log.Fatal("Failed creating an encoding session: ", err)
 	}
 
 	done := make(chan error)
-	stream := dca.NewStream(encodeSession, v, done)
+	stream := dcabert.NewStream(encodeSession, v, done)
 
 	ticker := time.NewTicker(time.Second)
 
